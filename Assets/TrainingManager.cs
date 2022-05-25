@@ -13,21 +13,23 @@ public class TrainingManager : MonoBehaviour
     WebSocket ws;
     readonly ConcurrentQueue<string> inMessages = new();
     public Robot robot;
+
+    Vector3 prevPos = Vector3.zero;
     enum Phase
     {
         Freeze,
         Run
     }
     Phase phase;
-    public float epochTime = 0.1f;
-    public float currentEpochTime = 0f;
+    public float stepTime = 0.1f;
+    public float currentStepTime = 0f;
     void Start()
     {
         ws = new WebSocket(wsServer);
         ws.OnMessage += (sender, e) => inMessages.Enqueue(e.Data);
         ws.Connect();
-        //StopEpoch();
-        StartStep();
+        EndStep();
+        //StartStep();
     }
     private void Update()
     {
@@ -38,25 +40,28 @@ public class TrainingManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-
-        currentEpochTime += Time.fixedDeltaTime;
-        if (phase == Phase.Run && currentEpochTime > epochTime)
+        if(currentStepTime != 0f)
         {
-            StopStep();
+            Debug.DrawLine(prevPos,robot.baseLink.x);
+        }
+        prevPos = robot.baseLink.x;
+        currentStepTime += Time.fixedDeltaTime;
+        if (phase == Phase.Run && currentStepTime > stepTime)
+        {
+            EndStep();
         }
     }
     void StartStep()
     {
-        currentEpochTime = 0;
+        currentStepTime = 0;
         phase = Phase.Run;
         Time.timeScale = 1;
     }
-    void StopStep()
+    void EndStep()
     {
         phase = Phase.Freeze;
         Time.timeScale = 0;
         Send("state", robot.GetState());
-        print(robot.GetState());
     }
     void Send(string command, object data)
     {
@@ -64,11 +69,13 @@ public class TrainingManager : MonoBehaviour
         jo["command"] = command;
         jo["content"] = JObject.FromObject(data);
         ws.Send(jo.ToString());
-        print(jo);
+
+        print($"send:\n {jo}");
     }
     void Recv(string message)
     {
-        print(message);
+
+        print($"recv:\n {message}");
         JObject jo = JObject.Parse(message);
         var content = jo["content"];
         var c = (string)jo["command"];
