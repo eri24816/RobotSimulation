@@ -15,6 +15,8 @@ public class TrainingManager : MonoBehaviour
     public Robot robot;
     [SerializeField]
     GameObject target;
+    [SerializeField]
+    float logProb = 0.01f;
     enum Phase
     {
         Freeze,
@@ -65,12 +67,13 @@ public class TrainingManager : MonoBehaviour
         jo["content"] = JObject.FromObject(data);
         ws.Send(jo.ToString());
 
-        print($"send:\n {jo}");
+        if (Random.Range(0, 1f) < logProb)
+            print($"send:\n {jo}");
     }
     void Recv(string message)
     {
-
-        print($"recv:\n {message}");
+        if(Random.Range(0, 1f)<logProb)
+            print($"recv:\n {message}");
         JObject jo = JObject.Parse(message);
         var content = jo["content"];
         var c = (string)jo["command"];
@@ -84,6 +87,11 @@ public class TrainingManager : MonoBehaviour
             case "new target":
                 Vector3 pos = content["pos"].ToObject<Vector3>();
                 target.transform.position = pos;
+                Transform baselink = robot.transform.Find("base_link");
+                baselink.GetComponent<ArticulationBody>().enabled = false;
+                baselink.rotation = Quaternion.identity;
+                //baselink.transform.Rotate(0, 0.2f, 0);
+                baselink.GetComponent<ArticulationBody>().enabled = true;
                 break;
         }
     }
