@@ -28,6 +28,7 @@ public class Robot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Unity.Robotics.UrdfImporter.Control.Controller controller = GetComponent<Unity.Robotics.UrdfImporter.Control.Controller>();
         baseLink = Util.GetOrAddComponent<MotionSensor>(transform, "base_link");
         wheelBase = new MotionSensor[]{
             Util.GetOrAddComponent<MotionSensor>(transform,"left_back_wheel_base"),
@@ -52,12 +53,6 @@ public class Robot : MonoBehaviour
             Util.GetOrAddComponent<Motor>(transform,"right_back_wheel"),
             Util.GetOrAddComponent<Motor>(transform,"right_front_wheel")
         };
-
-        DoAction(new Action
-        {
-            voltage = new List<float>{200,200,200,200,200,200,200,200 }
-        }
-        );
     }
 
 
@@ -70,7 +65,7 @@ public class Robot : MonoBehaviour
     {
         State state = new()
         {
-            baseLinkPos = baseLink.x,
+            baseLinkPos = new Vector2(baseLink.x.x, baseLink.x.z),
             baseLinkOrientation = baseLink.theta.y,
             baseLinkVelocity = baseLink.x_t,
             baseLinkAngularVelocity = baseLink.theta_t.y

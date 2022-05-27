@@ -13,8 +13,8 @@ public class TrainingManager : MonoBehaviour
     WebSocket ws;
     readonly ConcurrentQueue<string> inMessages = new();
     public Robot robot;
-
-    Vector3 prevPos = Vector3.zero;
+    [SerializeField]
+    GameObject target;
     enum Phase
     {
         Freeze,
@@ -40,11 +40,6 @@ public class TrainingManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(currentStepTime != 0f)
-        {
-            Debug.DrawLine(prevPos,robot.baseLink.x);
-        }
-        prevPos = robot.baseLink.x;
         currentStepTime += Time.fixedDeltaTime;
         if (phase == Phase.Run && currentStepTime > stepTime)
         {
@@ -83,10 +78,12 @@ public class TrainingManager : MonoBehaviour
         switch (c)
         {
             case "action":
-                {
                     robot.DoAction(content.ToObject<Robot.Action>());
                     StartStep();
-                }
+                break;
+            case "new target":
+                Vector3 pos = content["pos"].ToObject<Vector3>();
+                target.transform.position = pos;
                 break;
         }
     }
