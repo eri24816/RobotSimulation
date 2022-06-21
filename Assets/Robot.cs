@@ -25,8 +25,10 @@ public class Robot : MonoBehaviour
 
     List<Motor> motorList;
 
+    public TrailRenderer trailRenderer;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Unity.Robotics.UrdfImporter.Control.Controller controller = GetComponent<Unity.Robotics.UrdfImporter.Control.Controller>();
         baseLink = Util.GetOrAddComponent<MotionSensor>(transform, "base_link");
@@ -53,6 +55,7 @@ public class Robot : MonoBehaviour
             Util.GetOrAddComponent<Motor>(transform,"right_back_wheel"),
             Util.GetOrAddComponent<Motor>(transform,"right_front_wheel")
         };
+        trailRenderer = GetComponentInChildren<TrailRenderer>();
     }
 
 
@@ -67,7 +70,7 @@ public class Robot : MonoBehaviour
         {
             baseLinkPos = new Vector2(baseLink.x.x, baseLink.x.z),
             baseLinkOrientation = baseLink.theta.y,
-            baseLinkVelocity = baseLink.x_t,
+            baseLinkVelocity = new Vector2(baseLink.x_t.x, baseLink.x_t.z),
             baseLinkAngularVelocity = baseLink.theta_t.y
         };
         state.wheelBaseOrientation = new();

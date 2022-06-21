@@ -1540,6 +1540,7 @@ MonoBehaviour:
   baseLink: {fileID: 0}
   wheelBase: []
   wheel: []
+  trailRenderer: {fileID: 0}
 --- !u!1 &435053253
 GameObject:
   m_ObjectHideFlags: 8
@@ -4936,6 +4937,8 @@ MonoBehaviour:
   wsServer: ws://localhost:8765
   robot: {fileID: 1722995129}
   target: {fileID: 1552213781}
+  logProb: 0.01
+  timeScale: 50
   stepTime: 0.1
   currentStepTime: 0
 --- !u!4 &1369165893
@@ -6215,6 +6218,7 @@ MonoBehaviour:
   baseLink: {fileID: 0}
   wheelBase: []
   wheel: []
+  trailRenderer: {fileID: 0}
 --- !u!114 &1722995130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6296,7 +6300,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832664549}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: dc66a86eca9f3204c9d6765642555eff, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4

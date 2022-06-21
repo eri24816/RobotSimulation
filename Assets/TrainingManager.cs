@@ -16,7 +16,7 @@ public class TrainingManager : MonoBehaviour
     [SerializeField]
     GameObject target;
     [SerializeField]
-    float logProb = 0.01f;
+    float logProb = 0.01f, timeScale = 50;
     enum Phase
     {
         Freeze,
@@ -52,7 +52,7 @@ public class TrainingManager : MonoBehaviour
     {
         currentStepTime = 0;
         phase = Phase.Run;
-        Time.timeScale = 1;
+        Time.timeScale = timeScale;
     }
     void EndStep()
     {
@@ -81,17 +81,29 @@ public class TrainingManager : MonoBehaviour
         switch (c)
         {
             case "action":
-                    robot.DoAction(content.ToObject<Robot.Action>());
-                    StartStep();
+                robot.DoAction(content.ToObject<Robot.Action>());
+                StartStep();
+                break;
+            case "pos":
+                    Transform baselink = robot.transform.Find("base_link");
+                    baselink.GetComponent<ArticulationBody>().enabled = false;
+                    baselink.position = content.ToObject<Vector3>();
+                    baselink.GetComponent<ArticulationBody>().enabled = true;
+
+                    robot.trailRenderer.Clear();
                 break;
             case "new target":
                 Vector3 pos = content["pos"].ToObject<Vector3>();
                 target.transform.position = pos;
-                Transform baselink = robot.transform.Find("base_link");
+                baselink = robot.transform.Find("base_link");
                 baselink.GetComponent<ArticulationBody>().enabled = false;
                 baselink.rotation = Quaternion.identity;
                 //baselink.transform.Rotate(0, 0.2f, 0);
                 baselink.GetComponent<ArticulationBody>().enabled = true;
+
+                break;
+            case "require state":
+                Send("state", robot.GetState());
                 break;
         }
     }
