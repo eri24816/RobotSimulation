@@ -92,7 +92,7 @@ public class TrainingManager : MonoBehaviour
 
                     robot.trailRenderer.Clear();
                 break;
-            case "new target":
+            case "target":
                 Vector3 pos = content["pos"].ToObject<Vector3>();
                 target.transform.position = pos;
                 baselink = robot.transform.Find("base_link");
