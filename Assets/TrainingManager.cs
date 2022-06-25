@@ -14,7 +14,7 @@ public class TrainingManager : MonoBehaviour
     readonly ConcurrentQueue<string> inMessages = new();
     public Robot robot;
     [SerializeField]
-    GameObject target;
+    Target target;
     [SerializeField]
     float logProb = 0.01f, timeScale = 50;
     enum Phase
@@ -39,6 +39,8 @@ public class TrainingManager : MonoBehaviour
         {
             Recv(m);
         }
+        if (target.moved)
+            Send("target", target.transform.position);
     }
     void FixedUpdate()
     {
@@ -95,11 +97,14 @@ public class TrainingManager : MonoBehaviour
             case "target":
                 Vector3 pos = content["pos"].ToObject<Vector3>();
                 target.transform.position = pos;
+                /*
                 baselink = robot.transform.Find("base_link");
                 baselink.GetComponent<ArticulationBody>().enabled = false;
-                baselink.rotation = Quaternion.identity;
+                //baselink.rotation = Quaternion.identity;
                 //baselink.transform.Rotate(0, 0.2f, 0);
                 baselink.GetComponent<ArticulationBody>().enabled = true;
+                */
+                robot.trailRenderer.Clear();
 
                 break;
             case "require state":

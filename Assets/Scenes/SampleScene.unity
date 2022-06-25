@@ -301,7 +301,7 @@ ArticulationBody:
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
-  m_ArticulationJointType: 0
+  m_ArticulationJointType: 2
   m_LinearX: 0
   m_LinearY: 0
   m_LinearZ: 0
@@ -1175,7 +1175,7 @@ ArticulationBody:
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
-  m_ArticulationJointType: 0
+  m_ArticulationJointType: 2
   m_LinearX: 0
   m_LinearY: 0
   m_LinearZ: 0
@@ -4715,7 +4715,7 @@ ArticulationBody:
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
-  m_ArticulationJointType: 0
+  m_ArticulationJointType: 2
   m_LinearX: 0
   m_LinearY: 0
   m_LinearZ: 0
@@ -4936,7 +4936,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wsServer: ws://localhost:8765
   robot: {fileID: 1722995129}
-  target: {fileID: 1552213781}
+  target: {fileID: 1552213786}
   logProb: 0.01
   timeScale: 50
   stepTime: 0.1
@@ -5582,6 +5582,7 @@ GameObject:
   - component: {fileID: 1552213784}
   - component: {fileID: 1552213783}
   - component: {fileID: 1552213782}
+  - component: {fileID: 1552213786}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -5667,6 +5668,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1552213786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552213781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed034415a9aafe34b8696d2ac8ab64d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moved: 0
 --- !u!1 &1559707225
 GameObject:
   m_ObjectHideFlags: 8
@@ -5799,7 +5813,7 @@ ArticulationBody:
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
-  m_ArticulationJointType: 0
+  m_ArticulationJointType: 2
   m_LinearX: 0
   m_LinearY: 0
   m_LinearZ: 0
@@ -6365,7 +6379,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832664549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.297, z: 0.000000010906769}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0.000000010906769}
   m_LocalScale: {x: 1000, y: 10, z: 1000}
   m_ConstrainProportionsScale: 0
   m_Children: []
