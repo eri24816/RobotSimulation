@@ -44,8 +44,9 @@ public class TrainingManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        currentStepTime += Time.fixedDeltaTime;
-        if (phase == Phase.Run && currentStepTime > stepTime)
+        if(phase == Phase.Run)
+            currentStepTime += Time.fixedDeltaTime;
+        if (phase == Phase.Run && currentStepTime >= stepTime)
         {
             EndStep();
         }
